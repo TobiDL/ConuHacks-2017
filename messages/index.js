@@ -13,40 +13,7 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
 
 var bot = new builder.UniversalBot(connector);
 
-//
-//GETTING DATA FROM YELOWP
-//
-var geoLat = "45.4951999";
-var geoLong = "-73.5810253";
 
-//HTTP Post Request
-var request = require('request');
-
-var location = geoLat + ',' + geoLong + ',2';
-
-var myJSONObject = {
-    "search": [{
-        "summary": true,
-        "where": { "type": "GEO", "value": location },
-        "collection": "MERCHANT",
-        "language": "EN",
-        "context": "CONTENT-R",
-        "results": [{ "type": "ROOT", "from": 0, "count": 20 }]
-    }]
-};
-
-request({
-    url: "http://hackaton.ypcloud.io/search",
-    method: "POST",
-    json: true,
-    body: myJSONObject
-}, function (error, response, body) {
-    name = ''
-    //for (var x=0; x<response.body.searchResult[0].merchants.length; x++)
-    //   console.log(JSON.stringify(response.body.searchResult[0].merchants[0]));
-    name += JSON.stringify(response.body.searchResult[0].merchants[0]);
-
-});
 
 // Make sure you add code to validate these fields
 var luisAppId = process.env.LuisAppId;
@@ -62,7 +29,6 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 //NULL INTENT
 .matches('None', (session, args) => {
     session.send('Hi! This is the None intent handler. You said: \'%s\'.', session.message.text);
-    session.send('By the way, here are some stuff I found:\n'+name);
 })
 
 //WEATHER + CITY THIS IS TEMPORARY
@@ -107,7 +73,35 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 
 //GREETING
 .matches('greeting', (session, args) => {
-    session.send('Hi my friend!');
+
+    var geoLat = "45.4951999";
+    var geoLong = "-73.5810253";
+
+    //HTTP Post Request
+    var request = require('request');
+
+    var location = geoLat + ',' + geoLong + ',2';
+
+    var myJSONObject = {
+        "search": [{
+            "summary": true,
+            "where": { "type": "GEO", "value": location },
+            "collection": "MERCHANT",
+            "language": "EN",
+            "context": "CONTENT-R",
+            "results": [{ "type": "ROOT", "from": 0, "count": 20 }]
+        }]
+    };
+
+    request({
+        url: "http://hackaton.ypcloud.io/search",
+        method: "POST",
+        json: true,
+        body: myJSONObject
+    }, function (error, response, body) {
+        //for (var x=0; x<response.body.searchResult[0].merchants.length; x++)
+        session.send(JSON.stringify(response.body.searchResult[0].merchants[0]));
+    });
 })
 
 //DEFAULT
