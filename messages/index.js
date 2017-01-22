@@ -37,11 +37,14 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 })
 .matches('weather', (session, args) => {
     var city = builder.EntityRecognizer.findEntity(args.entities, 'city');
+    session.send(JSON.stringify(city));
+
+    /*
     if ('entity' in city)
         session.send('You asked about the weather in %s.', city.entity);
     else
         session.send('You asked about the weather');
-
+        */
 })
 .matches('movie', (session, args) => {
 	var genre = builder.EntityRecognizer.findEntity(args.entities, 'genre');
