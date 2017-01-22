@@ -36,7 +36,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
     session.send('Hi! This is the None intent handler. You said: \'%s\'.', session.message.text);
 })
 .matches('weather', (session, args) => {
-    var city = builder.EntityRecognizer.findEntity(args.entities, 'geography');
+    var city = builder.EntityRecognizer.findEntity(args.entities, 'builtin.geography.city');
     session.send(JSON.stringify(city));
 
     /*
