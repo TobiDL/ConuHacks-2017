@@ -37,7 +37,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 })
 .matches('weather', (session, args) => {
     var city = builder.EntityRecognizer.findEntity(args.entities, 'city');
-    if (city != null)
+    if ('entity' in city)
         session.send('You asked about the weather in %s.', city.entity);
     else
         session.send('You asked about the weather');
