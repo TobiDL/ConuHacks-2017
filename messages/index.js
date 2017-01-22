@@ -42,7 +42,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 .matches('movie', (session, args) => {
 	var genre = builder.EntityRecognizer.findEntity(args.entities, 'genre');
     if (genre != null) {
-		session.send('You asked me about %s movies', genre.entity);
+		session.send('You asked me about %s kind of movies', genre.entity);
     }
     else {
     	session.send('You asked me about movies');
