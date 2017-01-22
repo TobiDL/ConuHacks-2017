@@ -75,6 +75,9 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 //GREETING
 .matches('greeting', (session, args) => {
 
+    var geoLat = "45.4951999";
+    var geoLong = "-73.5810253";
+
     var myJSONObject = {
         "search": [{
             "summary": true,
@@ -105,10 +108,6 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 });
 
 bot.dialog('/', intents);    
-
-//YELLOWP
-var geoLat = "45.4951999";
-var geoLong = "-73.5810253";
 
 
 if (useEmulator) {
