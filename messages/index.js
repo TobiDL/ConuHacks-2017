@@ -1,9 +1,3 @@
-/*-----------------------------------------------------------------------------
-This template demonstrates how to use an IntentDialog with a LuisRecognizer to add 
-natural language support to a bot. 
-For a complete walkthrough of creating this type of bot see the article at
-http://docs.botframework.com/builder/node/guides/understanding-natural-language/
------------------------------------------------------------------------------*/
 "use strict";
 var builder = require("botbuilder");
 var botbuilder_azure = require("botbuilder-azure");
@@ -29,12 +23,13 @@ const LuisModelUrl = 'https://' + luisAPIHostName + '/luis/v1/application?id=' +
 // Main dialog with LUIS
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
 var intents = new builder.IntentDialog({ recognizers: [recognizer] })
-/*
-.matches('<yourIntent>')... See details at http://docs.botframework.com/builder/node/guides/understanding-natural-language/
-*/
+
+//NULL INTENT
 .matches('None', (session, args) => {
     session.send('Hi! This is the None intent handler. You said: \'%s\'.', session.message.text);
 })
+
+//WEATHER + CITY THIS IS TEMPORARY
 .matches('weather', (session, args) => {
     var city = builder.EntityRecognizer.findEntity(args.entities, 'builtin.geography.city');
     var country = builder.EntityRecognizer.findEntity(args.entities, 'builtin.geography.country');
@@ -47,23 +42,45 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
         session.send('You asked about the weather');
     
 })
+
+//MOVIE + GENRE
 .matches('movie', (session, args) => {
 	var genre = builder.EntityRecognizer.findEntity(args.entities, 'genre');
-    session.send('You asked about moviwa in %s.', genre.entity);
 
+	if (genre != null)
+    	session.send('You asked about movies in %s.', genre.entity);
+    else
+		session.send('You asked about movies');    	
 
 })
+
+//RESTAURANT + CUISINE + COST
 .matches('restaurant', (session, args) => {
-    session.send('You asked about restaurants');
+	var cuisine = builder.EntityRecognizer.findEntity(args.entities, 'cuisine');
+	var cost = builder.EntityRecognizer.findEntity(args.entities, 'cost');
+
+	if (cuisine != null && cost != null)
+	    session.send('You asked about %s %s restaurants', cost.entity, cuisine.entity);
+	else if (cuisine != null)
+		session.send('You asked about %s restaurants', cuisine.entity);
+	else if (cost != null)
+		session.send('You asked about %s restaurants', cost.entity);
+    else
+    	session.send('You asked about restaurants');
 })
+
+//GREETING
 .matches('greeting', (session, args) => {
     session.send('Hi my friend!');
 })
+
+//DEFAULT
 .onDefault((session) => {
     session.send('Sorry, I did not understand \'%s\'.', session.message.text);
 });
 
 bot.dialog('/', intents);    
+
 
 if (useEmulator) {
     var restify = require('restify');
