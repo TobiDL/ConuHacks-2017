@@ -78,29 +78,29 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
     var geoLat = "45.4951999";
     var geoLong = "-73.5810253";
 
-    var myJSONObject = {
-        "search": [{
-            "summary": true,
-            "where": { "type": "GEO", "value": location},
-            "collection": "MERCHANT",
-            "language": "EN",
-            "context": "CONTENT-R",
-            "results": [{ "type": "ROOT", "from": 0, "count": 3 }]
-        }]
-    };
+    //var myJSONObject = {
+    //    "search": [{
+    //        "summary": true,
+    //        "where": { "type": "GEO", "value": location},
+    //        "collection": "MERCHANT",
+    //        "language": "EN",
+    //        "context": "CONTENT-R",
+    //        "results": [{ "type": "ROOT", "from": 0, "count": 3 }]
+    //    }]
+    //};
 
     session.send('Hello');
 
-    request({
-        url: "http://hackaton.ypcloud.io/search",
-        method: "POST",
-        json: true,
-        body: myJSONObject
-    }, function (error, response, body) {
+    //request({
+        //url: "http://hackaton.ypcloud.io/search",
+        //method: "POST",
+        //json: true,
+      //  body: myJSONObject
+    //}, function (error, response, body) {
         //for (var x = 0; x < response.body.searchResult[0].merchants.length; x++)
         //session.send(JSON.stringify(response.body.searchResult[0].merchants[0]).businessName);
-        session.send("hello");
-    });
+        //session.send("hello");
+    //});
 
     
 })
