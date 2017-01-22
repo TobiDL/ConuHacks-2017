@@ -75,6 +75,27 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 //GREETING
 .matches('greeting', (session, args) => {
 
+    var myJSONObject = {
+        "search": [{
+            "summary": true,
+            "where": { "type": "GEO", "value": location },
+            "collection": "MERCHANT",
+            "language": "EN",
+            "context": "CONTENT-R",
+            "results": [{ "type": "ROOT", "from": 0, "count": 3 }]
+        }]
+    };
+
+    request({
+        url: "http://hackaton.ypcloud.io/search",
+        method: "POST",
+        json: true,
+        body: myJSONObject
+    }, function (error, response, body) {
+        for (var x = 0; x < response.body.searchResult[0].merchants.length; x++)
+            session.send(JSON.stringify(response.body.searchResult[0].merchants[0]).businessName);
+    });
+
     session.send('Hello');
 })
 
@@ -88,30 +109,6 @@ bot.dialog('/', intents);
 //YELLOWP
 var geoLat = "45.4951999";
 var geoLong = "-73.5810253";
-
-console.log(geoLat);
-
-//var myJSONObject = {
-//    "search": [{
-//        "summary": true,
-//        "where": { "type": "GEO", "value": location },
-//        "collection": "MERCHANT",
-//        "language": "EN",
-//        "context": "CONTENT-R",
-//        "results": [{ "type": "ROOT", "from": 0, "count": 3 }]
-//    }]
-//};
-
-//request({
-//    url: "http://hackaton.ypcloud.io/search",
-//    method: "POST",
-//    json: true,
-//    body: myJSONObject
-//}, function (error, response, body) {
-//    //for (var x=0; x<response.body.searchResult[0].merchants.length; x++)
-//    console.log(JSON.stringify(response.body.searchResult[0].merchants[0]).businessName);
-//});
-
 
 
 if (useEmulator) {
