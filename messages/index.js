@@ -81,13 +81,15 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
     var myJSONObject = {
         "search": [{
             "summary": true,
-            "where": { "type": "GEO", "value": location },
+            "where": { "type": "GEO", "value": location},
             "collection": "MERCHANT",
             "language": "EN",
             "context": "CONTENT-R",
             "results": [{ "type": "ROOT", "from": 0, "count": 3 }]
         }]
     };
+
+    session.send('Hello');
 
     request({
         url: "http://hackaton.ypcloud.io/search",
@@ -100,7 +102,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
         session.send("hello");
     });
 
-    session.send('Hello');
+    
 })
 
 //DEFAULT
