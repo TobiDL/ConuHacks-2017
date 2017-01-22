@@ -95,8 +95,8 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
         json: true,
         body: myJSONObject
     }, function (error, response, body) {
-        for (var x = 0; x < response.body.searchResult[0].merchants.length; x++)
-            session.send(JSON.stringify(response.body.searchResult[0].merchants[0]).businessName);
+        //for (var x = 0; x < response.body.searchResult[0].merchants.length; x++)
+            session.send(JSON.stringify(response));
     });
 
     session.send('Hello');
