@@ -46,7 +46,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 
 })
 .matches('restaurant', (session, args) => {
-    session.send('You asked about the weather in \'%s\'.', city.entity);
+    session.send('You asked about restaurants');
 })
 .matches('greeting', (session, args) => {
     session.send('Hi my friend!');
